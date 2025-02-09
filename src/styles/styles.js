@@ -109,6 +109,46 @@ const styles = `
         margin: 10px 0;
         padding: 5px;
     }
+
+    #file-sharing-container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    .upload-section {
+        margin-bottom: 30px;
+        padding: 20px;
+        background: #f5f5f5;
+        border-radius: 5px;
+    }
+
+    .shared-files {
+        background: #fff;
+        padding: 20px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+    }
+
+    .file-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px;
+        border-bottom: 1px solid #eee;
+    }
+
+    .download-link {
+        background: #0066cc;
+        color: white;
+        padding: 5px 10px;
+        border-radius: 3px;
+        text-decoration: none;
+    }
+
+    .download-link:hover {
+        background: #0052a3;
+    }
 `;
 
 module.exports = styles; 

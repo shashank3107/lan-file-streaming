@@ -7,10 +7,12 @@ const port = 3001;
 // Import routes
 const pageRoutes = require('./routes/pageRoutes');
 const mediaRoutes = require('./routes/mediaRoutes');
+const fileShareRoutes = require('./routes/fileShareRoutes');
 
 // Use routes
 app.use('/', pageRoutes);
 app.use('/', mediaRoutes);
+app.use('/', fileShareRoutes);
 
 // Socket.io connection handling
 io.on('connection', (socket) => {

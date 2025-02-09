@@ -10,6 +10,7 @@ router.get('/', (req, res) => {
         <a href="/videos" class="menu-item">Videos</a>
         <a href="/audios" class="menu-item">Audio</a>
         <a href="/chat" class="menu-item">Chat Room</a>
+        <a href="/share" class="menu-item">File Sharing</a>
     `;
     res.send(renderPage(content));
 });
