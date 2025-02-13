@@ -35,6 +35,43 @@ io.on('connection', (socket) => {
         console.log('User disconnected:', userIP);
         socket.broadcast.emit('user status', 'A user has left the chat');
     });
+
+    // Handle device discovery with device name
+    socket.on('ping device', (deviceInfo) => {
+        io.emit('device found', {
+            ip: socket.handshake.address.replace('::ffff:', ''),
+            hostname: deviceInfo.hostname || 'Unknown Device',
+            deviceName: deviceInfo.deviceName || 'Unnamed Device',
+            time: new Date().toLocaleTimeString()
+        });
+    });
+
+    // Handle call signaling
+    socket.on('call device', (data) => {
+        io.emit('incoming call', {
+            from: {
+                ip: socket.handshake.address.replace('::ffff:', ''),
+                deviceName: data.fromName,
+            },
+            to: data.toIp,
+            signal: data.signal
+        });
+    });
+
+    socket.on('answer call', (data) => {
+        io.emit('call answered', {
+            from: socket.handshake.address.replace('::ffff:', ''),
+            signal: data.signal,
+            to: data.toIp
+        });
+    });
+
+    socket.on('end call', (data) => {
+        io.emit('call ended', {
+            from: socket.handshake.address.replace('::ffff:', ''),
+            to: data.toIp
+        });
+    });
 });
 
 // Start server (changed from app.listen to http.listen)

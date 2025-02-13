@@ -169,6 +169,210 @@ const styles = `
     .delete-link:hover {
         background: #c82333;
     }
+
+    #devices-container {
+        max-width: 800px;
+        margin: 20px auto;
+        padding: 20px;
+    }
+
+    .device-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px;
+        margin: 10px 0;
+        background: #f5f5f5;
+        border-radius: 5px;
+        border: 1px solid #ddd;
+    }
+
+    .device-hostname {
+        font-weight: bold;
+        color: #333;
+    }
+
+    .device-ip {
+        color: #666;
+    }
+
+    .device-link {
+        background: #0066cc;
+        color: white;
+        padding: 8px 15px;
+        border-radius: 4px;
+        text-decoration: none;
+    }
+
+    .device-link:hover {
+        background: #0052a3;
+    }
+
+    .refresh-button {
+        margin-top: 20px;
+        padding: 10px 20px;
+        background: #28a745;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+    }
+
+    .refresh-button:hover {
+        background: #218838;
+    }
+
+    .device-info {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .current-device {
+        background: #e8f5e9;
+        border-color: #81c784;
+    }
+
+    .current-device-label {
+        color: #2e7d32;
+        font-size: 0.8em;
+        font-style: italic;
+    }
+
+    .scan-status {
+        margin-top: 20px;
+        color: #666;
+        font-style: italic;
+        text-align: center;
+    }
+
+    .device-time {
+        color: #666;
+        font-size: 0.8em;
+        font-style: italic;
+    }
+
+    #ping-button {
+        margin-bottom: 20px;
+        background: #0066cc;
+    }
+
+    #ping-button:hover {
+        background: #0052a3;
+    }
+
+    .device-settings {
+        margin-bottom: 20px;
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    .device-name-input {
+        padding: 8px 15px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 16px;
+        width: 250px;
+    }
+
+    .save-name-button {
+        padding: 8px 15px;
+        background: #28a745;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+    }
+
+    .save-name-button:hover {
+        background: #218838;
+    }
+
+    .device-name {
+        font-size: 1.2em;
+        font-weight: bold;
+        color: #0066cc;
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    .call-button {
+        background: #28a745;
+        color: white;
+        padding: 8px 15px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        margin-right: 10px;
+    }
+
+    .call-button:hover {
+        background: #218838;
+    }
+
+    .hidden {
+        display: none;
+    }
+
+    #call-container {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: rgba(0, 0, 0, 0.9);
+        padding: 20px;
+        border-radius: 10px;
+        z-index: 1000;
+    }
+
+    .video-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+        margin-bottom: 20px;
+    }
+
+    .video-container {
+        position: relative;
+    }
+
+    .video-container video {
+        width: 300px;
+        height: 225px;
+        background: #000;
+        border-radius: 8px;
+    }
+
+    .video-label {
+        position: absolute;
+        bottom: 10px;
+        left: 10px;
+        color: white;
+        background: rgba(0, 0, 0, 0.5);
+        padding: 4px 8px;
+        border-radius: 4px;
+    }
+
+    .call-controls {
+        text-align: center;
+    }
+
+    .end-call-button {
+        background: #dc3545;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+    }
+
+    .end-call-button:hover {
+        background: #c82333;
+    }
 `;
 
 module.exports = styles; 
