@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{title}} - LAN File Streaming</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    {{#extraStyles}}
+    <link rel="stylesheet" href="{{.}}">
+    {{/extraStyles}}
+</head>
+
+<body>
+    <nav class="main-nav">
+        <a href="/" class="menu-item">Home</a>
+        {{#showBackButton}}
+        <a href="{{backLink}}" class="back-link">← Back</a>
+        {{/showBackButton}}
+    </nav>
+
+    <main class="content">
+        {{{content}}}
+    </main>
+
+    {{#scripts}}
+    <script src="{{.}}"></script>
+    {{/scripts}}
+</body>
+
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Available Devices - LAN File Streaming</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+
+<body>
+    <nav class="main-nav">
+        <a href="/" class="back-link">← Back to Home</a>
+    </nav>
+
+    <main class="content">
+        <h2>Available Devices</h2>
+        <div id="devices-container">
+            <!-- Add calling status box -->
+            <div id="calling-status-box" class="calling-status-box hidden">
+                <p>Calling <span id="calling-name">...</span></p>
+            </div>
+
+            <!-- Add notification box -->
+            <div id="incoming-call-box" class="incoming-call-box hidden">
+                <div class="incoming-call-content">
+                    <h3>Incoming Call</h3>
+                    <p id="incoming-call-text">Incoming call from...</p>
+                    <div class="incoming-call-buttons">
+                        <button id="accept-call" class="accept-call-button">Accept</button>
+                        <button id="reject-call" class="reject-call-button">Reject</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="device-settings">
+                <input type="text" id="device-name" placeholder="Enter your device name" class="device-name-input">
+                <button id="save-name" class="save-name-button">Save Name</button>
+            </div>
+            <button id="ping-button" class="refresh-button">Ping My Device</button>
+
+            <!-- Add call container -->
+            <div id="call-container" class="hidden">
+                <div class="video-grid">
+                    <div class="video-container">
+                        <video id="localVideo" autoplay muted playsinline></video>
+                        <span class="video-label">You</span>
+                    </div>
+                    <div class="video-container">
+                        <video id="remoteVideo" autoplay playsinline></video>
+                        <span class="video-label">Remote User</span>
+                    </div>
+                </div>
+                <div class="call-controls">
+                    <button id="end-call" class="end-call-button">End Call</button>
+                </div>
+            </div>
+
+            <div id="devices-list">
+                <p>Waiting for devices...</p>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://unpkg.com/simple-peer@9.11.1/simplepeer.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/js/devices.js"></script>
+</body>
+
+</html>

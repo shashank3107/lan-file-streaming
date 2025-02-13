@@ -373,6 +373,102 @@ const styles = `
     .end-call-button:hover {
         background: #c82333;
     }
+
+    .incoming-call-box {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        padding: 20px;
+        z-index: 1000;
+        min-width: 300px;
+        animation: slideIn 0.3s ease-out;
+    }
+
+    @keyframes slideIn {
+        from {
+            transform: translateX(100%);
+            opacity: 0;
+        }
+        to {
+            transform: translateX(0);
+            opacity: 1;
+        }
+    }
+
+    .incoming-call-content h3 {
+        margin: 0 0 10px 0;
+        color: #333;
+    }
+
+    .incoming-call-content p {
+        margin: 0 0 15px 0;
+        color: #666;
+    }
+
+    .incoming-call-buttons {
+        display: flex;
+        gap: 10px;
+        justify-content: flex-end;
+    }
+
+    .accept-call-button {
+        background: #28a745;
+        color: white;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    .accept-call-button:hover {
+        background: #218838;
+    }
+
+    .reject-call-button {
+        background: #dc3545;
+        color: white;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    .reject-call-button:hover {
+        background: #c82333;
+    }
+
+    .calling-status-box {
+        position: fixed;
+        top: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: #28a745;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        z-index: 1000;
+        animation: fadeIn 0.3s ease-out;
+    }
+
+    .calling-status-box p {
+        margin: 0;
+        font-size: 16px;
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translate(-50%, -20px);
+        }
+        to {
+            opacity: 1;
+            transform: translate(-50%, 0);
+        }
+    }
 `;
 
 module.exports = styles; 

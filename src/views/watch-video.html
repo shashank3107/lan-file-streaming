@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Watch Video - LAN File Streaming</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+
+<body>
+    <nav class="main-nav">
+        <a href="/videos" class="back-link">← Back to Videos</a>
+    </nav>
+
+    <main class="content">
+        <h2 id="video-title"></h2>
+        <div class="video-player">
+            <video width="800" controls>
+                <source id="video-source" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+    </main>
+
+    <script>
+        // Get filename from URL
+        const filename = decodeURIComponent(window.location.pathname.split('/').pop());
+
+        // Set video title
+        document.getElementById('video-title').textContent = filename;
+
+        // Set video source
+        const videoSource = document.getElementById('video-source');
+        videoSource.src = `/video/${encodeURIComponent(filename)}`;
+
+        // Set page title
+        document.title = `${filename} - LAN File Streaming`;
+    </script>
+</body>
+
+</html>

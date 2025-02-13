@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Listen Audio - LAN File Streaming</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+
+<body>
+    <nav class="main-nav">
+        <a href="/audios" class="back-link">← Back to Audio Files</a>
+    </nav>
+
+    <main class="content">
+        <h2 id="audio-title"></h2>
+        <div class="audio-player">
+            <audio controls>
+                <source id="audio-source" type="audio/mpeg">
+                Your browser does not support the audio tag.
+            </audio>
+        </div>
+    </main>
+
+    <script>
+        // Get filename from URL
+        const filename = decodeURIComponent(window.location.pathname.split('/').pop());
+
+        // Set audio title
+        document.getElementById('audio-title').textContent = filename;
+
+        // Set audio source
+        const audioSource = document.getElementById('audio-source');
+        audioSource.src = `/audio/${encodeURIComponent(filename)}`;
+
+        // Set page title
+        document.title = `${filename} - LAN File Streaming`;
+    </script>
+</body>
+
+</html>

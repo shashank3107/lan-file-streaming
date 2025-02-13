@@ -1,3 +1,8 @@
+/**
+ * LAN File Streaming Server
+ * A Node.js server that allows streaming media files, chatting, and video calling over LAN
+ */
+
 const express = require('express');
 const app = express();
 const https = require('https');
@@ -10,6 +15,9 @@ const port = 3001;
 const pageRoutes = require('./routes/pageRoutes');
 const mediaRoutes = require('./routes/mediaRoutes');
 const fileShareRoutes = require('./routes/fileShareRoutes');
+
+// Serve static files
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Use routes
 app.use('/', pageRoutes);
@@ -28,18 +36,25 @@ const certOptions = {
     cert: fs.readFileSync(path.join(certsDir, 'cert.pem'))
 };
 
-// Create HTTPS server instead of HTTP
+// Create HTTPS server
 const server = https.createServer(certOptions, app);
 const ioServer = io(server);
 
-// Socket.io connection handling
+/**
+ * Socket.IO event handlers for real-time communication
+ */
 ioServer.on('connection', (socket) => {
-    const userIP = socket.handshake.address.replace('::ffff:', '');
+    // Get user's IP address
+    const userIP = socket.handshake.headers['x-forwarded-for'] || 
+                   socket.handshake.address.replace('::ffff:', '') ||
+                   socket.request.connection.remoteAddress.replace('::ffff:', '');
+    
     console.log('A user connected from:', userIP);
     
     // Notify others of new connection
     socket.broadcast.emit('user status', 'A new user has joined the chat');
     
+    // Handle chat messages
     socket.on('chat message', (msgData) => {
         ioServer.emit('chat message', {
             text: msgData.text,
@@ -49,26 +64,29 @@ ioServer.on('connection', (socket) => {
         });
     });
 
+    // Handle user disconnection
     socket.on('disconnect', () => {
         console.log('User disconnected:', userIP);
         socket.broadcast.emit('user status', 'A user has left the chat');
     });
 
-    // Handle device discovery with device name
+    // Handle device discovery
     socket.on('ping device', (deviceInfo) => {
+        console.log('Ping from:', userIP, 'with device info:', deviceInfo);
         ioServer.emit('device found', {
-            ip: socket.handshake.address.replace('::ffff:', ''),
+            ip: userIP,
             hostname: deviceInfo.hostname || 'Unknown Device',
             deviceName: deviceInfo.deviceName || 'Unnamed Device',
             time: new Date().toLocaleTimeString()
         });
     });
 
-    // Handle call signaling
+    // Handle video call signaling
     socket.on('call device', (data) => {
+        console.log('Call initiated from', userIP, 'to', data.toIp);
         ioServer.emit('incoming call', {
             from: {
-                ip: socket.handshake.address.replace('::ffff:', ''),
+                ip: userIP,
                 deviceName: data.fromName,
             },
             to: data.toIp,
@@ -77,22 +95,24 @@ ioServer.on('connection', (socket) => {
     });
 
     socket.on('answer call', (data) => {
+        console.log('Call answered by', userIP, 'to', data.toIp);
         ioServer.emit('call answered', {
-            from: socket.handshake.address.replace('::ffff:', ''),
+            from: userIP,
             signal: data.signal,
             to: data.toIp
         });
     });
 
     socket.on('end call', (data) => {
+        console.log('Call ended by', userIP, 'to', data.toIp);
         ioServer.emit('call ended', {
-            from: socket.handshake.address.replace('::ffff:', ''),
+            from: userIP,
             to: data.toIp
         });
     });
 });
 
-// Start server (changed from app.listen to http.listen)
+// Start server and log available addresses
 server.listen(port, '0.0.0.0', () => {
     const interfaces = require('os').networkInterfaces();
     const addresses = Object.values(interfaces)

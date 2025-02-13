@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Audio Files - LAN File Streaming</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+
+<body>
+    <nav class="main-nav">
+        <a href="/" class="back-link">← Back to Home</a>
+    </nav>
+
+    <main class="content">
+        <h2>Available Audio Files</h2>
+        <div id="audio-list">
+            <p>Loading audio files...</p>
+        </div>
+    </main>
+
+    <script>
+        // Fetch and display audio files
+        fetch('/api/audios')
+            .then(response => response.json())
+            .then(audioFiles => {
+                const audioList = document.getElementById('audio-list');
+                if (audioFiles.length === 0) {
+                    audioList.innerHTML = '<p>No audio files found</p>';
+                } else {
+                    audioList.innerHTML = audioFiles
+                        .map(file => `
+                            <a href="/listen-audio/${encodeURIComponent(file)}" class="file-link">
+                                ${file}
+                            </a>
+                        `).join('');
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching audio files:', error);
+                const audioList = document.getElementById('audio-list');
+                audioList.innerHTML = '<p>Error loading audio files</p>';
+            });
+    </script>
+</body>
+
+</html>

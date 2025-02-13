@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Room - LAN File Streaming</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+
+<body>
+    <nav class="main-nav">
+        <a href="/" class="back-link">← Back to Home</a>
+    </nav>
+
+    <main class="content">
+        <h2>Chat Room</h2>
+        <div id="chat-container">
+            <div id="messages"></div>
+            <form id="chat-form">
+                <input type="text" id="username" placeholder="Your name (optional)" />
+                <input type="text" id="message-input" placeholder="Type a message..." required>
+                <button type="submit">Send</button>
+            </form>
+        </div>
+    </main>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/js/chat.js"></script>
+</body>
+
+</html>
