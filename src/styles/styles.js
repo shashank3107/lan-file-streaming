@@ -149,6 +149,26 @@ const styles = `
     .download-link:hover {
         background: #0052a3;
     }
+
+    .file-actions {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+    }
+
+    .delete-link {
+        background: #dc3545;
+        color: white;
+        padding: 5px 10px;
+        border-radius: 3px;
+        border: none;
+        cursor: pointer;
+        font-size: 14px;
+    }
+
+    .delete-link:hover {
+        background: #c82333;
+    }
 `;
 
 module.exports = styles; 

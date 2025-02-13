@@ -27,7 +27,18 @@ const getSharedFiles = () => {
     return fs.readdirSync(uploadDir);
 };
 
+const deleteFile = (filename) => {
+    const uploadDir = path.join(__dirname, '../../uploads');
+    const filePath = path.join(uploadDir, filename);
+    if (fs.existsSync(filePath)) {
+        fs.unlinkSync(filePath);
+        return true;
+    }
+    return false;
+};
+
 module.exports = {
     upload,
-    getSharedFiles
+    getSharedFiles,
+    deleteFile
 }; 

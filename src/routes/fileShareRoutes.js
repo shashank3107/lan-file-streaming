@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const path = require('path');
-const { upload, getSharedFiles } = require('../utils/fileHandler');
+const { upload, getSharedFiles, deleteFile } = require('../utils/fileHandler');
 const renderPage = require('../templates/htmlTemplates');
 
 router.get('/share', (req, res) => {
@@ -24,7 +24,12 @@ router.get('/share', (req, res) => {
                     files.map(file => `
                         <div class="file-item">
                             <span>${file}</span>
-                            <a href="/download/${encodeURIComponent(file)}" class="download-link">Download</a>
+                            <div class="file-actions">
+                                <a href="/download/${encodeURIComponent(file)}" class="download-link">Download</a>
+                                <form action="/delete/${encodeURIComponent(file)}" method="post" style="display: inline;">
+                                    <button type="submit" class="delete-link">Delete</button>
+                                </form>
+                            </div>
                         </div>
                     `).join('')
                 }
@@ -41,6 +46,11 @@ router.post('/upload', upload.single('file'), (req, res) => {
 router.get('/download/:filename', (req, res) => {
     const file = path.join(__dirname, '../../uploads', req.params.filename);
     res.download(file);
+});
+
+router.post('/delete/:filename', (req, res) => {
+    const success = deleteFile(req.params.filename);
+    res.redirect('/share');
 });
 
 module.exports = router; 
