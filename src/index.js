@@ -1,7 +1,9 @@
 const express = require('express');
 const app = express();
-const http = require('http').createServer(app);
-const io = require('socket.io')(http);
+const https = require('https');
+const fs = require('fs');
+const path = require('path');
+const io = require('socket.io');
 const port = 3001;
 
 // Import routes
@@ -14,8 +16,24 @@ app.use('/', pageRoutes);
 app.use('/', mediaRoutes);
 app.use('/', fileShareRoutes);
 
+// Create certificates directory if it doesn't exist
+const certsDir = path.join(__dirname, '../certs');
+if (!fs.existsSync(certsDir)) {
+    fs.mkdirSync(certsDir);
+}
+
+// Certificate configuration
+const certOptions = {
+    key: fs.readFileSync(path.join(certsDir, 'key.pem')),
+    cert: fs.readFileSync(path.join(certsDir, 'cert.pem'))
+};
+
+// Create HTTPS server instead of HTTP
+const server = https.createServer(certOptions, app);
+const ioServer = io(server);
+
 // Socket.io connection handling
-io.on('connection', (socket) => {
+ioServer.on('connection', (socket) => {
     const userIP = socket.handshake.address.replace('::ffff:', '');
     console.log('A user connected from:', userIP);
     
@@ -23,7 +41,7 @@ io.on('connection', (socket) => {
     socket.broadcast.emit('user status', 'A new user has joined the chat');
     
     socket.on('chat message', (msgData) => {
-        io.emit('chat message', {
+        ioServer.emit('chat message', {
             text: msgData.text,
             username: msgData.username,
             ip: userIP,
@@ -38,7 +56,7 @@ io.on('connection', (socket) => {
 
     // Handle device discovery with device name
     socket.on('ping device', (deviceInfo) => {
-        io.emit('device found', {
+        ioServer.emit('device found', {
             ip: socket.handshake.address.replace('::ffff:', ''),
             hostname: deviceInfo.hostname || 'Unknown Device',
             deviceName: deviceInfo.deviceName || 'Unnamed Device',
@@ -48,7 +66,7 @@ io.on('connection', (socket) => {
 
     // Handle call signaling
     socket.on('call device', (data) => {
-        io.emit('incoming call', {
+        ioServer.emit('incoming call', {
             from: {
                 ip: socket.handshake.address.replace('::ffff:', ''),
                 deviceName: data.fromName,
@@ -59,7 +77,7 @@ io.on('connection', (socket) => {
     });
 
     socket.on('answer call', (data) => {
-        io.emit('call answered', {
+        ioServer.emit('call answered', {
             from: socket.handshake.address.replace('::ffff:', ''),
             signal: data.signal,
             to: data.toIp
@@ -67,7 +85,7 @@ io.on('connection', (socket) => {
     });
 
     socket.on('end call', (data) => {
-        io.emit('call ended', {
+        ioServer.emit('call ended', {
             from: socket.handshake.address.replace('::ffff:', ''),
             to: data.toIp
         });
@@ -75,7 +93,7 @@ io.on('connection', (socket) => {
 });
 
 // Start server (changed from app.listen to http.listen)
-http.listen(port, '0.0.0.0', () => {
+server.listen(port, '0.0.0.0', () => {
     const interfaces = require('os').networkInterfaces();
     const addresses = Object.values(interfaces)
         .flat()
@@ -83,5 +101,5 @@ http.listen(port, '0.0.0.0', () => {
         .map(details => details.address);
     
     console.log('Server running at:');
-    addresses.forEach(addr => console.log(`http://${addr}:${port}`));
+    addresses.forEach(addr => console.log(`https://${addr}:${port}`));
 }); 
